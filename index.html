@@ -5,392 +5,392 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>社群排程行事曆</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { min-height:100vh; background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%); font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif; color:#fff; padding:28px 16px; }
-.wrap { max-width:1100px; margin:0 auto; }
-.header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:22px; flex-wrap:wrap; gap:14px; }
-.subtitle { font-size:10px; letter-spacing:4px; color:#a78bfa; text-transform:uppercase; margin-bottom:5px; display:flex; align-items:center; gap:8px; }
-.connected-badge { background:rgba(99,235,113,0.15); border:1px solid rgba(99,235,113,0.3); border-radius:20px; padding:2px 9px; font-size:10px; color:#6ee7b7; display:flex; align-items:center; gap:4px; }
-.dot { width:6px; height:6px; border-radius:50%; background:#6ee7b7; display:inline-block; }
-h1 { font-size:25px; font-weight:800; letter-spacing:-1px; background:linear-gradient(90deg,#fff,#c4b5fd); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.stats { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.stat-box { background:rgba(255,255,255,0.07); border-radius:11px; padding:7px 15px; text-align:center; border:1px solid rgba(255,255,255,0.09); }
-.stat-num { font-size:19px; font-weight:800; }
-.stat-label { font-size:9px; color:rgba(255,255,255,0.38); margin-top:1px; }
-.sync-status { font-size:11px; min-width:120px; text-align:right; transition:color 0.3s; }
-.members-row { display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
-.members-label { font-size:10px; color:rgba(255,255,255,0.35); letter-spacing:1px; }
-.member-chip { display:flex; align-items:center; gap:5px; background:rgba(255,255,255,0.06); border-radius:8px; padding:4px 9px; border:1px solid rgba(255,255,255,0.09); font-size:11px; color:rgba(255,255,255,0.7); }
-.avatar { border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; border:2px solid rgba(15,12,41,0.5); flex-shrink:0; }
-.controls { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:9px; }
-.nav { display:flex; align-items:center; gap:9px; }
-.nav-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.11); color:#fff; width:31px; height:31px; border-radius:7px; font-size:16px; cursor:pointer; }
-.month-label { font-size:16px; font-weight:700; min-width:108px; text-align:center; }
-.filters { display:flex; gap:5px; flex-wrap:wrap; align-items:center; }
-.chip { padding:6px 12px; border-radius:7px; font-size:11px; font-weight:600; cursor:pointer; color:#fff; border:1px solid rgba(255,255,255,0.11); background:rgba(255,255,255,0.07); font-family:inherit; }
-.chip.active-ig { background:#E1306C; border:none; }
-.chip.active-fb { background:#1877F2; border:none; }
-.chip.active-all { background:#7c3aed; border:none; }
-.chip-add { background:linear-gradient(90deg,#7c3aed,#a21caf); border:none; font-weight:700; padding:6px 14px; }
-select.chip { background:rgba(255,255,255,0.07); }
-.calendar { background:rgba(255,255,255,0.04); border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,0.07); margin-bottom:18px; }
-.cal-header { display:grid; grid-template-columns:repeat(7,1fr); border-bottom:1px solid rgba(255,255,255,0.07); }
-.cal-dow { text-align:center; padding:10px 0; font-size:10px; font-weight:700; color:rgba(255,255,255,0.3); letter-spacing:2px; }
-.cal-dow.weekend { color:#f472b6; }
-.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); }
-.cal-cell { min-height:96px; padding:6px 5px; border-right:1px solid rgba(255,255,255,0.04); border-bottom:1px solid rgba(255,255,255,0.04); cursor:pointer; transition:background 0.12s; }
-.cal-cell:hover { background:rgba(167,139,250,0.07); }
-.cal-cell.selected { background:rgba(167,139,250,0.12); }
-.cal-cell.today-cell { background:rgba(167,139,250,0.06); }
-.cal-cell.empty { cursor:default; }
-.day-num { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; color:rgba(255,255,255,0.6); margin-bottom:3px; }
-.day-num.today-num { background:#a78bfa; color:#fff; font-weight:800; }
-.day-num.sel-num { color:#c4b5fd; }
-.post-pill { border-radius:4px; padding:2px 4px; font-size:9px; font-weight:600; display:flex; align-items:center; gap:3px; cursor:pointer; overflow:hidden; white-space:nowrap; margin-bottom:2px; }
-.post-pill.draft { border:1px dashed rgba(255,255,255,0.3); }
-.pill-title { flex:1; overflow:hidden; text-overflow:ellipsis; }
-.more-label { font-size:9px; color:rgba(255,255,255,0.3); padding-left:2px; }
-.detail-panel { background:rgba(255,255,255,0.04); border-radius:14px; padding:16px; border:1px solid rgba(167,139,250,0.2); }
-.detail-title { font-size:11px; font-weight:700; color:#c4b5fd; margin-bottom:12px; letter-spacing:1px; }
-.post-cards { display:flex; flex-wrap:wrap; gap:10px; }
-.post-card { background:rgba(255,255,255,0.05); border-radius:12px; padding:11px 13px; cursor:pointer; min-width:185px; max-width:235px; flex:1 0 185px; transition:transform 0.12s; }
-.post-card:hover { transform:translateY(-2px); }
-.card-top { display:flex; justify-content:space-between; margin-bottom:7px; }
-.plat-badge { border-radius:5px; padding:2px 7px; font-size:10px; font-weight:700; }
-.status-badge { border-radius:5px; padding:2px 7px; font-size:10px; font-weight:700; }
-.card-title { font-weight:700; font-size:13px; margin-bottom:3px; }
-.card-caption { font-size:11px; color:rgba(255,255,255,0.38); margin-bottom:8px; }
-.card-footer { display:flex; justify-content:space-between; align-items:center; }
-.card-time { font-size:10px; color:#a78bfa; }
-.avatar-group { display:flex; }
-.overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.72); backdrop-filter:blur(6px); align-items:center; justify-content:center; z-index:100; padding:16px; }
-.overlay.show { display:flex; }
-.modal { background:linear-gradient(135deg,#1e1b4b,#312e81); border:1px solid rgba(167,139,250,0.28); border-radius:20px; padding:24px; width:100%; max-width:450px; box-shadow:0 24px 80px rgba(0,0,0,0.65); max-height:90vh; overflow-y:auto; }
-.modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
-.modal-title { font-size:15px; font-weight:800; }
-.close-btn { background:none; border:none; color:rgba(255,255,255,0.38); font-size:19px; cursor:pointer; }
-.form-col { display:flex; flex-direction:column; gap:9px; }
-.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
-.inp { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.11); color:#fff; border-radius:9px; padding:8px 10px; font-size:12px; outline:none; width:100%; font-family:inherit; }
-textarea.inp { resize:vertical; min-height:60px; }
-.section-label { font-size:9px; color:rgba(255,255,255,0.3); margin-bottom:7px; letter-spacing:1px; text-transform:uppercase; }
-.assignee-list { display:flex; flex-wrap:wrap; gap:6px; }
-.assignee-chip { display:flex; align-items:center; gap:6px; padding:5px 10px; border-radius:8px; cursor:pointer; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09); transition:all 0.12s; }
-.tag-row { display:flex; gap:6px; }
-.tag-btn { background:rgba(167,139,250,0.16); border:1px solid rgba(255,255,255,0.11); color:#fff; border-radius:9px; padding:8px; font-size:12px; cursor:pointer; font-weight:800; width:36px; font-family:inherit; }
-.tags-list { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
-.tag-item { background:rgba(167,139,250,0.16); color:#c4b5fd; border-radius:6px; padding:2px 9px; font-size:10px; cursor:pointer; }
-.save-btn { padding:11px; border-radius:9px; background:linear-gradient(90deg,#7c3aed,#a21caf); border:none; color:#fff; font-size:13px; font-weight:800; cursor:pointer; width:100%; font-family:inherit; }
-.view-badges { display:flex; gap:6px; }
-.view-badge { border-radius:7px; padding:3px 10px; font-size:11px; font-weight:700; }
-.view-post-title { font-size:18px; font-weight:800; margin-bottom:5px; }
-.view-caption { font-size:12px; color:rgba(255,255,255,0.48); margin-bottom:14px; line-height:1.7; }
-.info-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-bottom:12px; }
-.info-box { background:rgba(255,255,255,0.06); border-radius:8px; padding:8px 10px; }
-.info-label { font-size:9px; color:rgba(255,255,255,0.28); margin-bottom:3px; }
-.info-val { font-size:11px; font-weight:600; }
-.assignee-section { background:rgba(255,255,255,0.05); border-radius:10px; padding:10px 12px; margin-bottom:10px; }
-.assignee-section-label { font-size:9px; color:rgba(255,255,255,0.28); margin-bottom:8px; letter-spacing:1px; }
-.assignee-cards { display:flex; flex-wrap:wrap; gap:7px; }
-.assignee-card { display:flex; align-items:center; gap:7px; border-radius:8px; padding:5px 10px; }
-.view-tags { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:12px; }
-.view-tag { background:rgba(167,139,250,0.16); color:#c4b5fd; border-radius:6px; padding:2px 9px; font-size:10px; }
-.status-actions { display:flex; gap:5px; margin-bottom:9px; }
-.status-action-btn { flex:1; padding:7px; border-radius:8px; border:none; font-size:11px; font-weight:700; cursor:pointer; font-family:inherit; }
-.trello-link { display:block; text-align:center; color:#a78bfa; font-size:11px; margin-bottom:8px; text-decoration:none; }
-.delete-btn { width:100%; padding:9px; border-radius:8px; background:rgba(239,68,68,0.11); border:1px solid rgba(239,68,68,0.22); color:#fca5a5; font-size:12px; cursor:pointer; font-weight:600; font-family:inherit; }
-.empty-msg { color:rgba(255,255,255,0.22); font-size:12px; }
-.loading-screen { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; }
-.error-box { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); border-radius:12px; padding:14px 20px; max-width:400px; text-align:center; }
-.error-msg { color:#fca5a5; font-size:13px; margin-bottom:10px; }
-.retry-btn { padding:6px 16px; border-radius:7px; font-size:11px; font-weight:700; cursor:pointer; color:#fff; background:#7c3aed; border:none; font-family:inherit; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{min-height:100vh;background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%);font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:#fff;padding:28px 16px;}
+.wrap{max-width:1100px;margin:0 auto;}
+h1{font-size:25px;font-weight:800;letter-spacing:-1px;background:linear-gradient(90deg,#fff,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.subtitle{font-size:10px;letter-spacing:4px;color:#a78bfa;text-transform:uppercase;margin-bottom:5px;}
+.header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:14px;}
+.stats{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.stat-box{background:rgba(255,255,255,0.07);border-radius:11px;padding:7px 15px;text-align:center;border:1px solid rgba(255,255,255,0.09);}
+.stat-num{font-size:19px;font-weight:800;}
+.stat-label{font-size:9px;color:rgba(255,255,255,0.38);margin-top:1px;}
+.sync{font-size:11px;min-width:130px;text-align:right;transition:color 0.3s;}
+.members-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.mlabel{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:1px;}
+.mchip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border-radius:8px;padding:4px 9px;border:1px solid rgba(255,255,255,0.09);font-size:11px;color:rgba(255,255,255,0.7);}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;border:2px solid rgba(15,12,41,0.5);flex-shrink:0;}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:9px;}
+.nav{display:flex;align-items:center;gap:9px;}
+.navbtn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.11);color:#fff;width:31px;height:31px;border-radius:7px;font-size:16px;cursor:pointer;font-family:inherit;}
+.mlbl{font-size:16px;font-weight:700;min-width:108px;text-align:center;}
+.filters{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+.chip{padding:6px 12px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;color:#fff;border:1px solid rgba(255,255,255,0.11);background:rgba(255,255,255,0.07);font-family:inherit;}
+.chip.aig{background:#E1306C;border:none;}
+.chip.afb{background:#1877F2;border:none;}
+.chip.aall{background:#7c3aed;border:none;}
+.addchip{background:linear-gradient(90deg,#7c3aed,#a21caf);border:none;padding:6px 14px;}
+select.chip{background:rgba(255,255,255,0.07);}
+.calendar{background:rgba(255,255,255,0.04);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);margin-bottom:18px;}
+.calhdr{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid rgba(255,255,255,0.07);}
+.dow{text-align:center;padding:10px 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:2px;}
+.dow.wk{color:#f472b6;}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);}
+.cell{min-height:96px;padding:6px 5px;border-right:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:background 0.12s;}
+.cell:hover{background:rgba(167,139,250,0.07);}
+.cell.sel{background:rgba(167,139,250,0.12);}
+.cell.tod{background:rgba(167,139,250,0.06);}
+.cell.emp{cursor:default;}
+.dnum{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.6);margin-bottom:3px;}
+.dnum.tn{background:#a78bfa;color:#fff;font-weight:800;}
+.dnum.sn{color:#c4b5fd;}
+.pill{border-radius:4px;padding:2px 4px;font-size:9px;font-weight:600;display:flex;align-items:center;gap:3px;cursor:pointer;overflow:hidden;white-space:nowrap;margin-bottom:2px;}
+.pill.dr{border:1px dashed rgba(255,255,255,0.3);}
+.ptitle{flex:1;overflow:hidden;text-overflow:ellipsis;}
+.more{font-size:9px;color:rgba(255,255,255,0.3);padding-left:2px;}
+.detail{background:rgba(255,255,255,0.04);border-radius:14px;padding:16px;border:1px solid rgba(167,139,250,0.2);}
+.dtitle{font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:12px;letter-spacing:1px;}
+.pcards{display:flex;flex-wrap:wrap;gap:10px;}
+.pcard{background:rgba(255,255,255,0.05);border-radius:12px;padding:11px 13px;cursor:pointer;min-width:185px;max-width:235px;flex:1 0 185px;transition:transform 0.12s;}
+.pcard:hover{transform:translateY(-2px);}
+.ctop{display:flex;justify-content:space-between;margin-bottom:7px;}
+.pbadge{border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;}
+.sbadge{border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;}
+.ctitle{font-weight:700;font-size:13px;margin-bottom:3px;}
+.ccap{font-size:11px;color:rgba(255,255,255,0.38);margin-bottom:8px;}
+.cfoot{display:flex;justify-content:space-between;align-items:center;}
+.ctime{font-size:10px;color:#a78bfa;}
+.avgrp{display:flex;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(6px);align-items:center;justify-content:center;z-index:100;padding:16px;}
+.overlay.show{display:flex;}
+.modal{background:linear-gradient(135deg,#1e1b4b,#312e81);border:1px solid rgba(167,139,250,0.28);border-radius:20px;padding:24px;width:100%;max-width:450px;box-shadow:0 24px 80px rgba(0,0,0,0.65);max-height:90vh;overflow-y:auto;}
+.mhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.mtitle{font-size:15px;font-weight:800;}
+.xbtn{background:none;border:none;color:rgba(255,255,255,0.38);font-size:19px;cursor:pointer;}
+.fcol{display:flex;flex-direction:column;gap:9px;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.inp{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.11);color:#fff;border-radius:9px;padding:8px 10px;font-size:12px;outline:none;width:100%;font-family:inherit;}
+textarea.inp{resize:vertical;min-height:60px;}
+.slbl{font-size:9px;color:rgba(255,255,255,0.3);margin-bottom:7px;letter-spacing:1px;text-transform:uppercase;}
+.alist{display:flex;flex-wrap:wrap;gap:6px;}
+.achip{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;cursor:pointer;transition:all 0.12s;}
+.tagrow{display:flex;gap:6px;}
+.tagbtn{background:rgba(167,139,250,0.16);border:1px solid rgba(255,255,255,0.11);color:#fff;border-radius:9px;padding:8px;font-size:12px;cursor:pointer;font-weight:800;width:36px;font-family:inherit;}
+.tagslist{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.titem{background:rgba(167,139,250,0.16);color:#c4b5fd;border-radius:6px;padding:2px 9px;font-size:10px;cursor:pointer;}
+.savebtn{padding:11px;border-radius:9px;background:linear-gradient(90deg,#7c3aed,#a21caf);border:none;color:#fff;font-size:13px;font-weight:800;cursor:pointer;width:100%;font-family:inherit;}
+.vbadges{display:flex;gap:6px;}
+.vbadge{border-radius:7px;padding:3px 10px;font-size:11px;font-weight:700;}
+.vtitle{font-size:18px;font-weight:800;margin-bottom:5px;}
+.vcap{font-size:12px;color:rgba(255,255,255,0.48);margin-bottom:14px;line-height:1.7;}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;}
+.ibox{background:rgba(255,255,255,0.06);border-radius:8px;padding:8px 10px;}
+.ilbl{font-size:9px;color:rgba(255,255,255,0.28);margin-bottom:3px;}
+.ival{font-size:11px;font-weight:600;}
+.asec{background:rgba(255,255,255,0.05);border-radius:10px;padding:10px 12px;margin-bottom:10px;}
+.aslbl{font-size:9px;color:rgba(255,255,255,0.28);margin-bottom:8px;letter-spacing:1px;}
+.acards{display:flex;flex-wrap:wrap;gap:7px;}
+.acard{display:flex;align-items:center;gap:7px;border-radius:8px;padding:5px 10px;}
+.vtags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
+.vtag{background:rgba(167,139,250,0.16);color:#c4b5fd;border-radius:6px;padding:2px 9px;font-size:10px;}
+.sacts{display:flex;gap:5px;margin-bottom:9px;}
+.sact{flex:1;padding:7px;border-radius:8px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;}
+.delbtn{width:100%;padding:9px;border-radius:8px;background:rgba(239,68,68,0.11);border:1px solid rgba(239,68,68,0.22);color:#fca5a5;font-size:12px;cursor:pointer;font-weight:600;font-family:inherit;}
+.empty{color:rgba(255,255,255,0.22);font-size:12px;}
+.tabs{display:flex;gap:3px;margin-bottom:18px;background:rgba(255,255,255,0.04);border-radius:11px;padding:3px;width:fit-content;}
+.tab{padding:7px 16px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:700;background:transparent;color:rgba(255,255,255,0.38);transition:all 0.13s;font-family:inherit;}
+.tab.on{background:rgba(167,139,250,0.22);color:#c4b5fd;}
+.mpanel{background:rgba(255,255,255,0.04);border-radius:16px;border:1px solid rgba(255,255,255,0.07);padding:22px;}
+.mphdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.mptitle{font-size:13px;font-weight:700;color:#c4b5fd;}
+.mcards{display:flex;flex-wrap:wrap;gap:9px;}
+.mcard{background:rgba(255,255,255,0.05);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:11px;min-width:175px;}
+.mname{font-weight:700;font-size:13px;}
+.mrole{font-size:10px;color:rgba(255,255,255,0.38);margin-top:2px;}
+.rmbtn{background:none;border:none;color:rgba(255,255,255,0.2);font-size:15px;cursor:pointer;padding:3px;}
+.addbx{background:rgba(167,139,250,0.09);border:1px solid rgba(167,139,250,0.22);border-radius:11px;padding:14px;margin-bottom:14px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;}
 </style>
 </head>
 <body>
-<div id="loading-screen" class="loading-screen">
-  <div style="font-size:40px">⏳</div>
-  <div style="font-size:16px;color:#c4b5fd">正在連線到 Trello…</div>
-  <div id="error-area" style="display:none">
-    <div class="error-box">
-      <div class="error-msg" id="error-msg"></div>
-      <button class="retry-btn" onclick="init()">重新連線</button>
-    </div>
-  </div>
-</div>
-<div id="app" style="display:none">
 <div class="wrap">
   <div class="header">
     <div>
-      <div class="subtitle">
-        <span>Social Media</span>
-        <div class="connected-badge"><span class="dot"></span>已連線 Trello</div>
-      </div>
+      <div class="subtitle">Social Media</div>
       <h1>內容排程行事曆</h1>
     </div>
     <div class="stats">
-      <div class="sync-status" id="sync-status" style="color:transparent">　</div>
-      <div class="stat-box"><div class="stat-num" id="stat-total" style="color:#a78bfa">0</div><div class="stat-label">本月貼文</div></div>
-      <div class="stat-box"><div class="stat-num" id="stat-scheduled" style="color:#FCD34D">0</div><div class="stat-label">已排程</div></div>
-      <div class="stat-box"><div class="stat-num" id="stat-draft" style="color:#6EE7B7">0</div><div class="stat-label">草稿</div></div>
-      <button class="chip" onclick="init()">🔄 重新整理</button>
+      <div class="sync" id="sync" style="color:transparent">　</div>
+      <div class="stat-box"><div class="stat-num" id="s-total" style="color:#a78bfa">0</div><div class="stat-label">本月貼文</div></div>
+      <div class="stat-box"><div class="stat-num" id="s-sch" style="color:#FCD34D">0</div><div class="stat-label">已排程</div></div>
+      <div class="stat-box"><div class="stat-num" id="s-dr" style="color:#6EE7B7">0</div><div class="stat-label">草稿</div></div>
     </div>
   </div>
-  <div class="members-row"><span class="members-label">看板成員</span><div id="members-list" style="display:flex;gap:8px;flex-wrap:wrap"></div></div>
-  <div class="controls">
-    <div class="nav">
-      <button class="nav-btn" onclick="prevMonth()">&#8249;</button>
-      <div class="month-label" id="month-label"></div>
-      <button class="nav-btn" onclick="nextMonth()">&#8250;</button>
+
+  <div class="tabs">
+    <button class="tab on" onclick="setPanel('cal')">📅 行事曆</button>
+    <button class="tab" id="tab-mem" onclick="setPanel('mem')">👥 成員管理</button>
+  </div>
+
+  <div id="panel-cal">
+    <div class="members-row"><span class="mlabel">團隊成員</span><div id="mlist" style="display:flex;gap:8px;flex-wrap:wrap"></div></div>
+    <div class="controls">
+      <div class="nav">
+        <button class="navbtn" onclick="pm()">&#8249;</button>
+        <div class="mlbl" id="mlbl"></div>
+        <button class="navbtn" onclick="nm()">&#8250;</button>
+      </div>
+      <div class="filters">
+        <button class="chip aall" id="f-all" onclick="sf('ALL')">全部</button>
+        <button class="chip" id="f-ig" onclick="sf('IG')">📸 IG</button>
+        <button class="chip" id="f-fb" onclick="sf('FB')">👍 FB</button>
+        <select class="chip" id="f-mem" onchange="sm(this.value)"><option value="ALL">👤 所有成員</option></select>
+        <button class="chip addchip" onclick="openAdd()">＋ 新增貼文</button>
+      </div>
     </div>
-    <div class="filters">
-      <button class="chip active-all" id="f-all" onclick="setFilter('ALL')">全部</button>
-      <button class="chip" id="f-ig" onclick="setFilter('IG')">📸 IG</button>
-      <button class="chip" id="f-fb" onclick="setFilter('FB')">👍 FB</button>
-      <select class="chip" id="f-member" onchange="setMemberFilter(this.value)"><option value="ALL">👤 所有成員</option></select>
-      <button class="chip chip-add" onclick="openAddModal()">＋ 新增貼文</button>
+    <div class="calendar">
+      <div class="calhdr">
+        <div class="dow wk">日</div><div class="dow">一</div><div class="dow">二</div>
+        <div class="dow">三</div><div class="dow">四</div><div class="dow">五</div>
+        <div class="dow wk">六</div>
+      </div>
+      <div class="calgrid" id="calgrid"></div>
+    </div>
+    <div id="detpanel" class="detail" style="display:none">
+      <div class="dtitle" id="dttl"></div>
+      <div class="pcards" id="dcards"></div>
     </div>
   </div>
-  <div class="calendar">
-    <div class="cal-header">
-      <div class="cal-dow weekend">日</div><div class="cal-dow">一</div><div class="cal-dow">二</div>
-      <div class="cal-dow">三</div><div class="cal-dow">四</div><div class="cal-dow">五</div>
-      <div class="cal-dow weekend">六</div>
+
+  <div id="panel-mem" style="display:none">
+    <div class="mpanel">
+      <div class="mphdr">
+        <div class="mptitle" id="mptitle">團隊成員</div>
+        <button class="chip addchip" onclick="toggleAddMem()">＋ 新增成員</button>
+      </div>
+      <div id="addmembox" class="addbx" style="display:none">
+        <input class="inp" id="mn" placeholder="姓名 *" style="width:110px;flex:1 0 90px">
+        <input class="inp" id="mr" placeholder="職稱（選填）" style="width:135px;flex:1 0 110px">
+        <button class="chip" style="background:#7c3aed;border:none" onclick="addMem()">新增</button>
+        <button class="chip" onclick="toggleAddMem()">取消</button>
+      </div>
+      <div class="mcards" id="mcards"></div>
     </div>
-    <div class="cal-grid" id="cal-grid"></div>
-  </div>
-  <div id="detail-panel" class="detail-panel" style="display:none">
-    <div class="detail-title" id="detail-title"></div>
-    <div class="post-cards" id="detail-cards"></div>
   </div>
 </div>
-</div>
+
 <!-- Add Modal -->
-<div class="overlay" id="add-modal" onclick="closeAddModal(event)">
+<div class="overlay" id="addmodal" onclick="closeAdd(event)">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-header"><div class="modal-title">＋ 新增排程貼文</div><button class="close-btn" onclick="closeAddModal()">✕</button></div>
-    <div class="form-col">
-      <input class="inp" id="f-title" placeholder="貼文標題 *">
-      <textarea class="inp" id="f-caption" placeholder="文案內容"></textarea>
-      <div class="form-grid">
-        <select class="inp" id="f-platform"><option value="IG">📸 Instagram</option><option value="FB">👍 Facebook</option></select>
-        <select class="inp" id="f-type"><option value="photo">🖼️ 貼文</option><option value="video">🎬 影片</option><option value="reel">✨ Reels</option><option value="story">⏱️ 限時動態</option></select>
-        <input class="inp" type="date" id="f-date">
-        <input class="inp" type="time" id="f-time" value="12:00">
+    <div class="mhdr"><div class="mtitle">＋ 新增排程貼文</div><button class="xbtn" onclick="closeAdd()">✕</button></div>
+    <div class="fcol">
+      <input class="inp" id="ft" placeholder="貼文標題 *">
+      <textarea class="inp" id="fc" placeholder="文案內容"></textarea>
+      <div class="fgrid">
+        <select class="inp" id="fp"><option value="IG">📸 Instagram</option><option value="FB">👍 Facebook</option></select>
+        <select class="inp" id="fty"><option value="photo">🖼️ 貼文</option><option value="video">🎬 影片</option><option value="reel">✨ Reels</option><option value="story">⏱️ 限時動態</option></select>
+        <input class="inp" type="date" id="fd">
+        <input class="inp" type="time" id="ftm" value="12:00">
       </div>
-      <select class="inp" id="f-status"><option value="draft">草稿</option><option value="scheduled">已排程</option><option value="published">已發佈</option></select>
-      <div><div class="section-label">指派負責人</div><div class="assignee-list" id="f-assignees"></div></div>
+      <select class="inp" id="fs"><option value="draft">草稿</option><option value="scheduled">已排程</option><option value="published">已發佈</option></select>
+      <div><div class="slbl">指派負責人</div><div class="alist" id="falist"></div></div>
       <div>
-        <div class="section-label">標籤</div>
-        <div class="tag-row">
-          <input class="inp" id="f-tag-input" placeholder="新增標籤" onkeydown="if(event.key==='Enter')addTag()">
-          <button class="tag-btn" onclick="addTag()">#</button>
-        </div>
-        <div class="tags-list" id="f-tags-list"></div>
+        <div class="slbl">標籤</div>
+        <div class="tagrow"><input class="inp" id="fti" placeholder="新增標籤" onkeydown="if(event.key==='Enter')at()"><button class="tagbtn" onclick="at()">#</button></div>
+        <div class="tagslist" id="ftl"></div>
       </div>
-      <button class="save-btn" onclick="submitPost()">儲存到 Trello</button>
+      <button class="savebtn" onclick="submitPost()">儲存貼文</button>
     </div>
   </div>
 </div>
+
 <!-- View Modal -->
-<div class="overlay" id="view-modal" onclick="closeViewModal(event)">
+<div class="overlay" id="viewmodal" onclick="closeView(event)">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-header"><div class="view-badges" id="v-badges"></div><button class="close-btn" onclick="closeViewModal()">✕</button></div>
-    <div class="view-post-title" id="v-title"></div>
-    <div class="view-caption" id="v-caption"></div>
-    <div class="info-grid">
-      <div class="info-box"><div class="info-label">類型</div><div class="info-val" id="v-type"></div></div>
-      <div class="info-box"><div class="info-label">發佈時間</div><div class="info-val" id="v-time"></div></div>
+    <div class="mhdr"><div class="vbadges" id="vb"></div><button class="xbtn" onclick="closeView()">✕</button></div>
+    <div class="vtitle" id="vt"></div>
+    <div class="vcap" id="vc"></div>
+    <div class="igrid">
+      <div class="ibox"><div class="ilbl">類型</div><div class="ival" id="vty"></div></div>
+      <div class="ibox"><div class="ilbl">發佈時間</div><div class="ival" id="vtm"></div></div>
     </div>
-    <div class="assignee-section" id="v-assignee-section">
-      <div class="assignee-section-label">負責人</div>
-      <div class="assignee-cards" id="v-assignees"></div>
-    </div>
-    <div class="view-tags" id="v-tags"></div>
-    <div class="status-actions" id="v-status-actions"></div>
-    <a class="trello-link" id="v-trello-link" target="_blank">🔗 在 Trello 中開啟</a>
-    <button class="delete-btn" onclick="deletePost()">刪除此貼文</button>
+    <div class="asec" id="vasec"><div class="aslbl">負責人</div><div class="acards" id="vac"></div></div>
+    <div class="vtags" id="vtgs"></div>
+    <div class="sacts" id="vsacts"></div>
+    <button class="delbtn" onclick="delPost()">刪除此貼文</button>
   </div>
 </div>
+
 <script>
-const TRELLO_KEY="62d84c8ff80b0fa65cd5671bf03405fb";
-const TRELLO_TOKEN="ATTA4ff0f28afcb5ee4f1d4acc47e7de2b2b643875c4b55974876ed431f44d5ec12d24328991";
-const BOARD_ID="6a01af43dee3b62978fdc940";
-const API="https://api.trello.com/1";
-const AUTH="key="+TRELLO_KEY+"&token="+TRELLO_TOKEN;
-const PLATFORMS={IG:{label:"Instagram",color:"#E1306C",icon:"📸"},FB:{label:"Facebook",color:"#1877F2",icon:"👍"}};
+// ── 資料 ──
+const PLAT={IG:{color:"#E1306C",icon:"📸"},FB:{color:"#1877F2",icon:"👍"}};
 const TYPES={photo:{label:"貼文",icon:"🖼️"},video:{label:"影片",icon:"🎬"},reel:{label:"Reels",icon:"✨"},story:{label:"限時動態",icon:"⏱️"}};
-const STATUS={draft:{label:"草稿",color:"#9ca3af",bg:"#374151",listName:"📝 草稿"},scheduled:{label:"已排程",color:"#FCD34D",bg:"#3d3010",listName:"📅 已排程"},published:{label:"已發佈",color:"#6EE7B7",bg:"#0d3326",listName:"✅ 已發佈"}};
-const STATUS_LIST_NAMES={"📝 草稿":"draft","📅 已排程":"scheduled","✅ 已發佈":"published"};
-const AVATAR_COLORS=["#7c3aed","#db2777","#0891b2","#059669","#d97706","#dc2626","#0284c7"];
-const MONTHS_ZH=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
-let S={year:new Date().getFullYear(),month:new Date().getMonth(),selected:null,posts:[],members:[],lists:[],filterPlatform:"ALL",filterMember:"ALL",formTags:[],formAssignees:[],viewingPost:null};
-function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
-function parseDesc(desc){
-  const r={platform:"IG",type:"photo",time:"12:00",tags:[],assigneeNames:[],caption:""};
-  if(!desc)return r;
-  desc.split("\n").forEach(line=>{
-    const idx=line.indexOf(":");if(idx<0)return;
-    const k=line.slice(0,idx).trim(),v=line.slice(idx+1).trim();
-    if(k==="platform"&&PLATFORMS[v])r.platform=v;
-    if(k==="type"&&TYPES[v])r.type=v;
-    if(k==="time")r.time=v;
-    if(k==="tags")r.tags=v?v.split(",").map(t=>t.trim()).filter(Boolean):[];
-    if(k==="assignees")r.assigneeNames=v?v.split(",").map(t=>t.trim()).filter(Boolean):[];
-    if(k==="caption")r.caption=v;
-  });return r;
-}
-function buildDesc(d){return["platform:"+d.platform,"type:"+d.type,"time:"+d.time,"tags:"+(d.tags||[]).join(","),"assignees:"+(d.assigneeNames||[]).join(","),"caption:"+(d.caption||"")].join("\n");}
-function cardToPost(card){
-  const list=S.lists.find(l=>l.id===card.idList);
-  const status=STATUS_LIST_NAMES[list&&list.name]||"draft";
-  const due=card.due?card.due.slice(0,10):"";
-  const p=parseDesc(card.desc);
-  const assignees=p.assigneeNames.map(name=>{const m=S.members.find(m=>m.fullName===name||m.username===name);return m?m.id:null;}).filter(Boolean);
-  return{id:card.id,trelloId:card.id,title:card.name,date:due,time:p.time,platform:p.platform,type:p.type,caption:p.caption,status,tags:p.tags,assignees,assigneeNames:p.assigneeNames};
-}
-async function init(){
-  document.getElementById("loading-screen").style.display="flex";
-  document.getElementById("app").style.display="none";
-  document.getElementById("error-area").style.display="none";
+const STAT={draft:{label:"草稿",color:"#9ca3af",bg:"#374151"},scheduled:{label:"已排程",color:"#FCD34D",bg:"#3d3010"},published:{label:"已發佈",color:"#6EE7B7",bg:"#0d3326"}};
+const AVC=["#7c3aed","#db2777","#0891b2","#059669","#d97706","#dc2626","#0284c7"];
+const MZH=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
+
+const STORAGE_KEY="social-cal-v3";
+let D={year:new Date().getFullYear(),month:new Date().getMonth(),sel:null,fp:"ALL",fm:"ALL",panel:"cal",formTags:[],formAss:[],vpost:null};
+let posts=[],members=[],addMemShown=false;
+
+// ── 儲存 ──
+async function save(){
   try{
-    const[mr,lr,cr]=await Promise.all([fetch(API+"/boards/"+BOARD_ID+"/members?"+AUTH),fetch(API+"/boards/"+BOARD_ID+"/lists?"+AUTH),fetch(API+"/boards/"+BOARD_ID+"/cards?"+AUTH+"&fields=name,desc,due,idList")]);
-    if(!mr.ok||!lr.ok||!cr.ok)throw new Error("Trello API 回應錯誤");
-    const[md,ld,cd]=await Promise.all([mr.json(),lr.json(),cr.json()]);
-    S.members=md.map((m,i)=>({...m,color:AVATAR_COLORS[i%AVATAR_COLORS.length]}));
-    S.lists=ld;S.posts=cd.map(cardToPost);
-    document.getElementById("loading-screen").style.display="none";
-    document.getElementById("app").style.display="block";
-    renderAll();
-  }catch(e){
-    document.getElementById("error-msg").textContent=e.message||"連線失敗，請稍後再試";
-    document.getElementById("error-area").style.display="block";
-  }
+    setSyncStatus("saving");
+    await window.storage.set(STORAGE_KEY,JSON.stringify({posts,members}),true);
+    setSyncStatus("saved");
+  }catch(e){setSyncStatus("error");}
 }
-function renderAll(){renderMembers();renderMonthLabel();renderCalendar();renderStats();renderMemberFilter();}
-function avatarHTML(m,size){const name=m.fullName||m.username||"?";return '<div class="avatar" style="width:'+size+'px;height:'+size+'px;background:'+(m.color||"#7c3aed")+';font-size:'+(size*0.4)+'px" title="'+esc(name)+'">'+esc(name[0])+"</div>";}
-function avatarGroupHTML(ids,size){
-  const found=(ids||[]).map(id=>S.members.find(m=>m.id===id)).filter(Boolean);
-  return'<div class="avatar-group">'+found.slice(0,3).map((m,i)=>'<div style="margin-left:'+(i===0?0:-(size*0.3))+'px;z-index:'+(3-i)+'">'+avatarHTML(m,size)+"</div>").join("")+(found.length>3?'<div style="margin-left:'+(-(size*0.3))+'px;width:'+size+'px;height:'+size+'px;border-radius:50%;background:#374151;display:flex;align-items:center;justify-content:center;font-size:'+(size*0.33)+'px;color:#9ca3af">+'+(found.length-3)+"</div>":"")+"</div>";
-}
-function renderMembers(){document.getElementById("members-list").innerHTML=S.members.map(m=>'<div class="member-chip">'+avatarHTML(m,18)+"<span>"+esc(m.fullName||m.username)+"</span></div>").join("");}
-function renderMemberFilter(){const sel=document.getElementById("f-member");sel.innerHTML='<option value="ALL">👤 所有成員</option>'+S.members.map(m=>'<option value="'+m.id+'">'+esc(m.fullName||m.username)+"</option>").join("");}
-function renderMonthLabel(){document.getElementById("month-label").textContent=S.year+" 年 "+MONTHS_ZH[S.month];}
-function renderStats(){
-  const total=S.posts.filter(p=>{const[y,m]=(p.date||"").split("-").map(Number);return y===S.year&&m===S.month+1;});
-  document.getElementById("stat-total").textContent=total.length;
-  document.getElementById("stat-scheduled").textContent=total.filter(p=>p.status==="scheduled").length;
-  document.getElementById("stat-draft").textContent=total.filter(p=>p.status==="draft").length;
-}
-function getPostsForDay(day){
-  const ds=S.year+"-"+String(S.month+1).padStart(2,"0")+"-"+String(day).padStart(2,"0");
-  return S.posts.filter(p=>p.date===ds&&(S.filterPlatform==="ALL"||p.platform===S.filterPlatform)&&(S.filterMember==="ALL"||p.assignees&&p.assignees.includes(S.filterMember)));
-}
-function renderCalendar(){
-  const grid=document.getElementById("cal-grid");
-  const dim=new Date(S.year,S.month+1,0).getDate();
-  const fd=new Date(S.year,S.month,1).getDay();
-  const td=new Date();
-  let html="";
-  for(let i=0;i<fd;i++)html+='<div class="cal-cell empty"></div>';
-  for(let day=1;day<=dim;day++){
-    const dp=getPostsForDay(day);
-    const isTod=td.getDate()===day&&td.getMonth()===S.month&&td.getFullYear()===S.year;
-    const isSel=S.selected===day;
-    const cls="cal-cell"+(isTod?" today-cell":"")+(isSel?" selected":"");
-    const numCls="day-num"+(isTod?" today-num":"")+(isSel&&!isTod?" sel-num":"");
-    let pills=dp.slice(0,2).map(post=>{
-      const color=(PLATFORMS[post.platform]&&PLATFORMS[post.platform].color||"#666")+(post.status==="draft"?"77":"");
-      return'<div class="post-pill'+(post.status==="draft"?" draft":"")+'" style="background:'+color+'" onclick="event.stopPropagation();openViewModal(\''+post.id+'\')"><span>'+(TYPES[post.type]&&TYPES[post.type].icon||"")+'</span><span class="pill-title">'+esc(post.title)+"</span>"+(post.assignees&&post.assignees.length?avatarGroupHTML(post.assignees,12):"")+"</div>";
-    }).join("");
-    if(dp.length>2)pills+='<div class="more-label">+'+(dp.length-2)+" 則</div>";
-    html+='<div class="'+cls+'" onclick="selectDay('+day+')"><div class="'+numCls+'">'+day+"</div>"+pills+"</div>";
-  }
-  grid.innerHTML=html;
-  renderDetailPanel();
-}
-function renderDetailPanel(){
-  const panel=document.getElementById("detail-panel");
-  if(!S.selected){panel.style.display="none";return;}
-  panel.style.display="block";
-  const posts=getPostsForDay(S.selected);
-  document.getElementById("detail-title").textContent=(S.month+1)+" 月 "+S.selected+" 日 · "+posts.length+" 則排程";
-  const cards=document.getElementById("detail-cards");
-  if(!posts.length){cards.innerHTML='<div class="empty-msg">這天目前沒有排程內容</div>';return;}
-  cards.innerHTML=posts.map(post=>{
-    const plat=PLATFORMS[post.platform]||{color:"#666"};
-    const stat=STATUS[post.status]||STATUS.draft;
-    return'<div class="post-card" style="border:1px solid '+plat.color+'44" onclick="openViewModal(\''+post.id+'\')">'+'<div class="card-top"><div style="display:flex;gap:5px;align-items:center"><span class="plat-badge" style="background:'+plat.color+'">'+post.platform+'</span><span style="font-size:11px">'+(TYPES[post.type]&&TYPES[post.type].icon||"")+'</span></div><span class="status-badge" style="background:'+stat.bg+';color:'+stat.color+'">'+stat.label+'</span></div><div class="card-title">'+esc(post.title)+'</div><div class="card-caption">'+esc(post.caption||"")+'</div><div class="card-footer"><span class="card-time">🕐 '+(post.time||"—")+"</span>"+avatarGroupHTML(post.assignees||[],20)+"</div></div>";
-  }).join("");
-}
-function selectDay(day){S.selected=S.selected===day?null:day;renderCalendar();}
-function prevMonth(){if(S.month===0){S.month=11;S.year--;}else S.month--;S.selected=null;renderAll();}
-function nextMonth(){if(S.month===11){S.month=0;S.year++;}else S.month++;S.selected=null;renderAll();}
-function setFilter(p){S.filterPlatform=p;["all","ig","fb"].forEach(x=>document.getElementById("f-"+x).className="chip");if(p==="ALL")document.getElementById("f-all").className="chip active-all";if(p==="IG")document.getElementById("f-ig").className="chip active-ig";if(p==="FB")document.getElementById("f-fb").className="chip active-fb";renderCalendar();}
-function setMemberFilter(v){S.filterMember=v;renderCalendar();}
-function openAddModal(){S.formTags=[];S.formAssignees=[];document.getElementById("f-title").value="";document.getElementById("f-caption").value="";document.getElementById("f-platform").value="IG";document.getElementById("f-type").value="photo";document.getElementById("f-date").value="";document.getElementById("f-time").value="12:00";document.getElementById("f-status").value="draft";document.getElementById("f-tag-input").value="";renderFormAssignees();renderFormTags();document.getElementById("add-modal").classList.add("show");}
-function closeAddModal(e){if(!e||e.target===document.getElementById("add-modal"))document.getElementById("add-modal").classList.remove("show");}
-function renderFormAssignees(){document.getElementById("f-assignees").innerHTML=S.members.map(m=>{const name=m.fullName||m.username;const on=S.formAssignees.includes(name);return'<div class="assignee-chip'+(on?" on":"")+'" style="'+(on?"background:"+m.color+"33;border:1px solid "+m.color:"border:1px solid rgba(255,255,255,0.09)")+'" onclick="toggleAssignee(\''+esc(name)+'\')">'+avatarHTML(m,20)+'<span style="font-size:11px;font-weight:700;color:'+(on?"#fff":"rgba(255,255,255,0.65)")+'">'+esc(name)+"</span>"+(on?'<span style="font-size:10px;color:'+m.color+'">✓</span>':"")+"</div>";}).join("");}
-function toggleAssignee(name){if(S.formAssignees.includes(name))S.formAssignees=S.formAssignees.filter(n=>n!==name);else S.formAssignees.push(name);renderFormAssignees();}
-function addTag(){const inp=document.getElementById("f-tag-input");const v=inp.value.trim();if(v&&!S.formTags.includes(v)){S.formTags.push(v);renderFormTags();}inp.value="";}
-function removeTag(t){S.formTags=S.formTags.filter(x=>x!==t);renderFormTags();}
-function renderFormTags(){document.getElementById("f-tags-list").innerHTML=S.formTags.map(t=>'<span class="tag-item" onclick="removeTag(\''+esc(t)+'\')">#'+esc(t)+" ✕</span>").join("");}
-async function submitPost(){
-  const title=document.getElementById("f-title").value.trim();
-  if(!title){alert("請填寫貼文標題");return;}
-  const status=document.getElementById("f-status").value;
-  const list=S.lists.find(l=>l.name===STATUS[status].listName);
-  if(!list){alert("找不到 Trello 清單「"+STATUS[status].listName+"」，請先在 Trello 建立此清單");return;}
-  const date=document.getElementById("f-date").value;
-  const time=document.getElementById("f-time").value||"12:00";
-  const due=date?new Date(date+"T"+time+":00").toISOString():null;
-  const desc=buildDesc({platform:document.getElementById("f-platform").value,type:document.getElementById("f-type").value,time,tags:S.formTags,assigneeNames:S.formAssignees,caption:document.getElementById("f-caption").value});
-  setSyncStatus("syncing");
+async function load(){
   try{
-    const res=await fetch(API+"/cards?"+AUTH,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:title,desc,due,idList:list.id})});
-    if(!res.ok)throw new Error();
-    setSyncStatus("ok");closeAddModal();await init();
-  }catch{setSyncStatus("error");}
+    const r=await window.storage.get(STORAGE_KEY,true);
+    if(r&&r.value){const d=JSON.parse(r.value);if(d.posts)posts=d.posts;if(d.members)members=d.members;}
+  }catch(e){}
+  renderAll();
 }
-function openViewModal(id){
-  const post=S.posts.find(p=>p.id===id);if(!post)return;
-  S.viewingPost=post;
-  const plat=PLATFORMS[post.platform]||{color:"#666",icon:"📌"};
-  const stat=STATUS[post.status]||STATUS.draft;
-  document.getElementById("v-badges").innerHTML='<span class="view-badge" style="background:'+plat.color+'">'+plat.icon+" "+post.platform+'</span><span class="view-badge" style="background:'+stat.bg+";color:"+stat.color+'">'+stat.label+"</span>";
-  document.getElementById("v-title").textContent=post.title;
-  const cap=document.getElementById("v-caption");cap.textContent=post.caption||"";cap.style.display=post.caption?"block":"none";
-  document.getElementById("v-type").textContent=(TYPES[post.type]&&TYPES[post.type].icon||"")+" "+(TYPES[post.type]&&TYPES[post.type].label||post.type);
-  document.getElementById("v-time").textContent=(post.date||"未設定")+" "+(post.time||"");
-  const assigned=(post.assignees||[]).map(id=>S.members.find(m=>m.id===id)).filter(Boolean);
-  const aSection=document.getElementById("v-assignee-section");
-  if(assigned.length){aSection.style.display="block";document.getElementById("v-assignees").innerHTML=assigned.map(m=>'<div class="assignee-card" style="background:'+m.color+'22;border:1px solid '+m.color+'55">'+avatarHTML(m,22)+'<span style="font-size:11px;font-weight:700">'+esc(m.fullName||m.username)+"</span></div>").join("");}
-  else aSection.style.display="none";
-  document.getElementById("v-tags").innerHTML=(post.tags||[]).map(t=>'<span class="view-tag">#'+esc(t)+"</span>").join("");
-  document.getElementById("v-status-actions").innerHTML=Object.entries(STATUS).filter(([k])=>k!==post.status).map(([k,v])=>'<button class="status-action-btn" style="background:'+v.bg+";color:"+v.color+'" onclick="changeStatus(\''+post.trelloId+"\','"+k+"')">→ "+v.label+"</button>").join("");
-  document.getElementById("v-trello-link").href="https://trello.com/c/"+post.trelloId;
-  document.getElementById("view-modal").classList.add("show");
-}
-function closeViewModal(e){if(!e||e.target===document.getElementById("view-modal"))document.getElementById("view-modal").classList.remove("show");}
-async function deletePost(){
-  if(!confirm("確定要刪除這則貼文嗎？"))return;
-  setSyncStatus("syncing");
-  try{await fetch(API+"/cards/"+S.viewingPost.trelloId+"?"+AUTH,{method:"DELETE"});setSyncStatus("ok");closeViewModal();await init();}
-  catch{setSyncStatus("error");}
-}
-async function changeStatus(trelloId,newStatus){
-  const list=S.lists.find(l=>l.name===STATUS[newStatus].listName);
-  if(!list){alert("找不到清單「"+STATUS[newStatus].listName+"」");return;}
-  setSyncStatus("syncing");
-  try{await fetch(API+"/cards/"+trelloId+"?"+AUTH,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({idList:list.id})});setSyncStatus("ok");closeViewModal();await init();}
-  catch{setSyncStatus("error");}
-}
+
 function setSyncStatus(s){
-  const el=document.getElementById("sync-status");
-  if(s==="syncing"){el.style.color="#FCD34D";el.textContent="⏳ 同步到 Trello…";}
-  else if(s==="ok"){el.style.color="#6EE7B7";el.textContent="✓ 已同步到 Trello";setTimeout(()=>{el.style.color="transparent";el.textContent="　";},2500);}
+  const el=document.getElementById("sync");
+  if(s==="saving"){el.style.color="#FCD34D";el.textContent="⏳ 同步中…";}
+  else if(s==="saved"){el.style.color="#6EE7B7";el.textContent="☁ 已同步給所有人";setTimeout(()=>{el.style.color="transparent";el.textContent="　";},2500);}
   else if(s==="error"){el.style.color="#fca5a5";el.textContent="✗ 同步失敗";setTimeout(()=>{el.style.color="transparent";el.textContent="　";},3000);}
 }
-init();
+
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+// ── 面板切換 ──
+function setPanel(p){
+  D.panel=p;
+  document.getElementById("panel-cal").style.display=p==="cal"?"block":"none";
+  document.getElementById("panel-mem").style.display=p==="mem"?"block":"none";
+  document.querySelectorAll(".tab").forEach((t,i)=>{t.className="tab"+(((i===0&&p==="cal")||(i===1&&p==="mem"))?" on":"");});
+  if(p==="mem")renderMemPanel();
+}
+
+// ── 渲染 ──
+function renderAll(){renderMemberRow();renderMonthLabel();renderCalendar();renderStats();renderMemberFilter();}
+function av(m,sz){const n=m.fullName||m.name||"?";return'<div class="av" style="width:'+sz+'px;height:'+sz+'px;background:'+(m.color||"#7c3aed")+';font-size:'+(sz*0.42)+'px" title="'+esc(n)+'">'+esc(n[0])+"</div>";}
+function avgrp(ids,sz){
+  const f=(ids||[]).map(id=>members.find(m=>m.id===id)).filter(Boolean);
+  return'<div class="avgrp">'+f.slice(0,3).map((m,i)=>'<div style="margin-left:'+(i===0?0:-(sz*0.3))+'px;z-index:'+(3-i)+'">'+av(m,sz)+"</div>").join("")+(f.length>3?'<div style="margin-left:'+(-(sz*0.3))+'px;width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:#374151;display:flex;align-items:center;justify-content:center;font-size:'+(sz*0.33)+'px;color:#9ca3af">+'+(f.length-3)+"</div>":"")+"</div>";
+}
+function renderMemberRow(){document.getElementById("mlist").innerHTML=members.map(m=>'<div class="mchip">'+av(m,18)+"<span>"+esc(m.fullName||m.name)+"</span></div>").join("");}
+function renderMemberFilter(){const s=document.getElementById("f-mem");s.innerHTML='<option value="ALL">👤 所有成員</option>'+members.map(m=>'<option value="'+m.id+'">'+esc(m.fullName||m.name)+"</option>").join("");}
+function renderMonthLabel(){document.getElementById("mlbl").textContent=D.year+" 年 "+MZH[D.month];}
+function renderStats(){
+  const t=posts.filter(p=>{const[y,m]=(p.date||"").split("-").map(Number);return y===D.year&&m===D.month+1;});
+  document.getElementById("s-total").textContent=t.length;
+  document.getElementById("s-sch").textContent=t.filter(p=>p.status==="scheduled").length;
+  document.getElementById("s-dr").textContent=t.filter(p=>p.status==="draft").length;
+}
+function gpd(day){
+  const ds=D.year+"-"+String(D.month+1).padStart(2,"0")+"-"+String(day).padStart(2,"0");
+  return posts.filter(p=>p.date===ds&&(D.fp==="ALL"||p.platform===D.fp)&&(D.fm==="ALL"||p.assignees&&p.assignees.includes(D.fm)));
+}
+function renderCalendar(){
+  const g=document.getElementById("calgrid");
+  const dim=new Date(D.year,D.month+1,0).getDate();
+  const fd=new Date(D.year,D.month,1).getDay();
+  const td=new Date();
+  let h="";
+  for(let i=0;i<fd;i++)h+='<div class="cell emp"></div>';
+  for(let d=1;d<=dim;d++){
+    const dp=gpd(d);
+    const iT=td.getDate()===d&&td.getMonth()===D.month&&td.getFullYear()===D.year;
+    const iS=D.sel===d;
+    let pills=dp.slice(0,2).map(p=>{
+      const c=(PLAT[p.platform]&&PLAT[p.platform].color||"#666")+(p.status==="draft"?"77":"");
+      return'<div class="pill'+(p.status==="draft"?" dr":"")+'" style="background:'+c+'" onclick="event.stopPropagation();openView(\''+p.id+'\')"><span>'+(TYPES[p.type]&&TYPES[p.type].icon||"")+'</span><span class="ptitle">'+esc(p.title)+"</span>"+(p.assignees&&p.assignees.length?avgrp(p.assignees,12):"")+"</div>";
+    }).join("");
+    if(dp.length>2)pills+='<div class="more">+'+(dp.length-2)+" 則</div>";
+    h+='<div class="cell'+(iT?" tod":"")+(iS?" sel":"")+'" onclick="selDay('+d+')"><div class="dnum'+(iT?" tn":"")+(iS&&!iT?" sn":"")+'">'+d+"</div>"+pills+"</div>";
+  }
+  g.innerHTML=h;
+  renderDetail();
+}
+function renderDetail(){
+  const p=document.getElementById("detpanel");
+  if(!D.sel){p.style.display="none";return;}
+  p.style.display="block";
+  const ps=gpd(D.sel);
+  document.getElementById("dttl").textContent=(D.month+1)+" 月 "+D.sel+" 日 · "+ps.length+" 則排程";
+  const c=document.getElementById("dcards");
+  if(!ps.length){c.innerHTML='<div class="empty">這天目前沒有排程內容</div>';return;}
+  c.innerHTML=ps.map(post=>{
+    const pl=PLAT[post.platform]||{color:"#666"};
+    const st=STAT[post.status]||STAT.draft;
+    return'<div class="pcard" style="border:1px solid '+pl.color+'44" onclick="openView(\''+post.id+'\')">'+'<div class="ctop"><div style="display:flex;gap:5px;align-items:center"><span class="pbadge" style="background:'+pl.color+'">'+post.platform+'</span><span style="font-size:11px">'+(TYPES[post.type]&&TYPES[post.type].icon||"")+'</span></div><span class="sbadge" style="background:'+st.bg+';color:'+st.color+'">'+st.label+'</span></div><div class="ctitle">'+esc(post.title)+'</div><div class="ccap">'+esc(post.caption||"")+'</div><div class="cfoot"><span class="ctime">🕐 '+(post.time||"—")+"</span>"+avgrp(post.assignees||[],20)+"</div></div>";
+  }).join("");
+}
+function renderMemPanel(){
+  document.getElementById("mptitle").textContent="團隊成員（"+members.length+" 人）";
+  document.getElementById("mcards").innerHTML=members.map(m=>'<div class="mcard" style="border:1px solid '+m.color+'44">'+av(m,40)+'<div style="flex:1"><div class="mname">'+esc(m.fullName||m.name)+'</div><div class="mrole">'+(m.role||"—")+'</div></div><button class="rmbtn" onclick="rmMem(\''+m.id+'\')" title="移除">✕</button></div>').join("");
+}
+
+// ── 互動 ──
+function selDay(d){D.sel=D.sel===d?null:d;renderCalendar();}
+function pm(){if(D.month===0){D.month=11;D.year--;}else D.month--;D.sel=null;renderAll();}
+function nm(){if(D.month===11){D.month=0;D.year++;}else D.month++;D.sel=null;renderAll();}
+function sf(p){D.fp=p;["all","ig","fb"].forEach(x=>{const el=document.getElementById("f-"+x);if(el)el.className="chip";});if(p==="ALL")document.getElementById("f-all").className="chip aall";if(p==="IG")document.getElementById("f-ig").className="chip aig";if(p==="FB")document.getElementById("f-fb").className="chip afb";renderCalendar();}
+function sm(v){D.fm=v;renderCalendar();}
+
+// ── 新增成員 ──
+function toggleAddMem(){addMemShown=!addMemShown;document.getElementById("addmembox").style.display=addMemShown?"flex":"none";}
+function addMem(){
+  const n=document.getElementById("mn").value.trim();
+  if(!n)return;
+  const r=document.getElementById("mr").value.trim();
+  members.push({id:"m"+Date.now(),name:n,fullName:n,role:r,color:AVC[members.length%AVC.length]});
+  document.getElementById("mn").value="";document.getElementById("mr").value="";
+  toggleAddMem();save();renderMemberRow();renderMemberFilter();renderMemPanel();
+}
+function rmMem(id){members=members.filter(m=>m.id!==id);save();renderMemberRow();renderMemberFilter();renderMemPanel();}
+
+// ── 新增貼文 ──
+function openAdd(){
+  D.formTags=[];D.formAss=[];
+  ["ft","fc","fd"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("fp").value="IG";document.getElementById("fty").value="photo";
+  document.getElementById("ftm").value="12:00";document.getElementById("fs").value="draft";
+  document.getElementById("fti").value="";renderFAss();renderFTags();
+  document.getElementById("addmodal").classList.add("show");
+}
+function closeAdd(e){if(!e||e.target===document.getElementById("addmodal"))document.getElementById("addmodal").classList.remove("show");}
+function renderFAss(){document.getElementById("falist").innerHTML=members.map(m=>{const n=m.fullName||m.name;const on=D.formAss.includes(m.id);return'<div class="achip" style="'+(on?"background:"+m.color+"33;border:1px solid "+m.color:"background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09)")+'" onclick="tgAss(\''+m.id+'\')">'+av(m,20)+'<span style="font-size:11px;font-weight:700;color:'+(on?"#fff":"rgba(255,255,255,0.65)")+'">'+esc(n)+"</span>"+(on?'<span style="font-size:10px;color:'+m.color+'">✓</span>':"")+"</div>";}).join("");}
+function tgAss(id){if(D.formAss.includes(id))D.formAss=D.formAss.filter(x=>x!==id);else D.formAss.push(id);renderFAss();}
+function at(){const v=document.getElementById("fti").value.trim();if(v&&!D.formTags.includes(v)){D.formTags.push(v);renderFTags();}document.getElementById("fti").value="";}
+function rt(t){D.formTags=D.formTags.filter(x=>x!==t);renderFTags();}
+function renderFTags(){document.getElementById("ftl").innerHTML=D.formTags.map(t=>'<span class="titem" onclick="rt(\''+esc(t)+'\')">#'+esc(t)+" ✕</span>").join("");}
+function submitPost(){
+  const title=document.getElementById("ft").value.trim();
+  if(!title)return;
+  posts.push({id:"p"+Date.now(),title,caption:document.getElementById("fc").value,platform:document.getElementById("fp").value,type:document.getElementById("fty").value,date:document.getElementById("fd").value,time:document.getElementById("ftm").value||"12:00",status:document.getElementById("fs").value,tags:[...D.formTags],assignees:[...D.formAss]});
+  save();closeAdd();renderAll();
+}
+
+// ── 檢視貼文 ──
+function openView(id){
+  const post=posts.find(p=>p.id===id);if(!post)return;
+  D.vpost=post;
+  const pl=PLAT[post.platform]||{color:"#666",icon:"📌"};
+  const st=STAT[post.status]||STAT.draft;
+  document.getElementById("vb").innerHTML='<span class="vbadge" style="background:'+pl.color+'">'+pl.icon+" "+post.platform+'</span><span class="vbadge" style="background:'+st.bg+';color:'+st.color+'">'+st.label+"</span>";
+  document.getElementById("vt").textContent=post.title;
+  const vc=document.getElementById("vc");vc.textContent=post.caption||"";vc.style.display=post.caption?"block":"none";
+  document.getElementById("vty").textContent=(TYPES[post.type]&&TYPES[post.type].icon||"")+" "+(TYPES[post.type]&&TYPES[post.type].label||post.type);
+  document.getElementById("vtm").textContent=(post.date||"未設定")+" "+(post.time||"");
+  const ass=(post.assignees||[]).map(id=>members.find(m=>m.id===id)).filter(Boolean);
+  const as=document.getElementById("vasec");
+  if(ass.length){as.style.display="block";document.getElementById("vac").innerHTML=ass.map(m=>'<div class="acard" style="background:'+m.color+'22;border:1px solid '+m.color+'55">'+av(m,22)+'<span style="font-size:11px;font-weight:700">'+esc(m.fullName||m.name)+"</span></div>").join("");}
+  else as.style.display="none";
+  document.getElementById("vtgs").innerHTML=(post.tags||[]).map(t=>'<span class="vtag">#'+esc(t)+"</span>").join("");
+  document.getElementById("vsacts").innerHTML=Object.entries(STAT).filter(([k])=>k!==post.status).map(([k,v])=>'<button class="sact" style="background:'+v.bg+';color:'+v.color+'" onclick="chStat(\''+k+"')\">→ "+v.label+"</button>").join("");
+  document.getElementById("viewmodal").classList.add("show");
+}
+function closeView(e){if(!e||e.target===document.getElementById("viewmodal"))document.getElementById("viewmodal").classList.remove("show");}
+function delPost(){if(!confirm("確定要刪除這則貼文嗎？"))return;posts=posts.filter(p=>p.id!==D.vpost.id);save();closeView();renderAll();}
+function chStat(s){posts=posts.map(p=>p.id===D.vpost.id?{...p,status:s}:p);save();closeView();renderAll();}
+
+load();
 </script>
 </body>
 </html>
